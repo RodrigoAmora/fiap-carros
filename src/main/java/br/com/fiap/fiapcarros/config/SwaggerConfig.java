@@ -26,7 +26,7 @@ public class SwaggerConfig {
                         )
                 )
                 .info(new Info()
-                        .title("API Autenticação")
+                        .title("API de Carros")
                         .description("Documentação da API")
                         .version("1.0"))
                 .security(Arrays.asList(new SecurityRequirement().addList("bearerAuth")));
