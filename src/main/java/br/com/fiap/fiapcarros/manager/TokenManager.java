@@ -2,10 +2,12 @@ package br.com.fiap.fiapcarros.manager;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 @Service
 public class TokenManager {
@@ -24,6 +26,14 @@ public class TokenManager {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() != null) {
             return authentication.getPrincipal().toString();
+        }
+        return null;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() != null) {
+            return authentication.getAuthorities();
         }
         return null;
     }
