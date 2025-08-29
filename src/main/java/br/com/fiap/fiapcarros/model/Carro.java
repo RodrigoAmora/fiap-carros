@@ -15,7 +15,7 @@ public class Carro {
     private Long id;
 
     @Column(nullable = false)
-    private String nome;
+    private String marca;
 
     @Column(nullable = false)
     private String modelo;
