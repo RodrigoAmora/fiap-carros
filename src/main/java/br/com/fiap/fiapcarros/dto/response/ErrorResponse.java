@@ -1,3 +1,9 @@
 package br.com.fiap.fiapcarros.dto.response;
 
-public record ErrorResponse(String codigo, String mensagem) {}
+import java.time.LocalDateTime;
+
+public record ErrorResponse(
+        int status,
+        String mensagem,
+        LocalDateTime timestamp
+) {}
