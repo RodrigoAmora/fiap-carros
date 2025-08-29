@@ -1,6 +1,6 @@
 package br.com.fiap.fiapcarros.service;
 
-import br.com.fiap.fiapcarros.dto.CarroDTO;
+import br.com.fiap.fiapcarros.dto.response.CarroResponseDTO;
 import br.com.fiap.fiapcarros.exception.CarroException;
 import br.com.fiap.fiapcarros.manager.CarroMapper;
 import br.com.fiap.fiapcarros.model.Carro;
@@ -21,7 +21,7 @@ public class CarroService {
         this.carroMapper = carroMapper;
     }
 
-    public CarroDTO buscarCarroPeloId(Long id) {
+    public CarroResponseDTO buscarCarroPeloId(Long id) {
         Optional<Carro> carro = carroReposiotry.findById(id);
         if (carro.isPresent()) {
             return carroMapper.toDto(carro.get());

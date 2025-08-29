@@ -1,6 +1,6 @@
 package br.com.fiap.fiapcarros.manager;
 
-import br.com.fiap.fiapcarros.dto.CarroDTO;
+import br.com.fiap.fiapcarros.dto.response.CarroResponseDTO;
 import br.com.fiap.fiapcarros.dto.PagamentoDTO;
 import br.com.fiap.fiapcarros.dto.request.CompraRequestDTO;
 import br.com.fiap.fiapcarros.dto.response.CompraResponseDTO;
@@ -47,7 +47,7 @@ public class CompraMapper {
     }
 
     public CompraResponseDTO toDTO(Compra compra) {
-        CarroDTO carroDTO = new CarroDTO(
+        CarroResponseDTO carroDTO = new CarroResponseDTO(
                 compra.getCarro().getId(),
                 compra.getCarro().getNome(),
                 compra.getCarro().getModelo(),
