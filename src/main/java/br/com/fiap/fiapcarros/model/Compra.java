@@ -13,8 +13,8 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_cliente")
-    private String nomeCliente;
+    @Column(name = "usuario_id")
+    private String idUsuario;
 
     @ManyToOne
     @JoinColumn(name = "carro_id")
@@ -30,5 +30,8 @@ public class Compra {
 
     @Column(name = "data_compra")
     private LocalDateTime dataCompra;
+
+    @Column(name = "data_cancelamento")
+    private LocalDateTime dataCancelamento;
 
 }
