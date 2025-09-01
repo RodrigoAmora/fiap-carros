@@ -18,7 +18,7 @@ public class CompraMapper {
 
         Compra compra = new Compra();
         compra.setCarro(carro);
-        compra.setNomeCliente(dto.nomeCliente());
+        compra.setIdUsuario(dto.idUsuario());
 
         Pagamento pagamento = new Pagamento();
         pagamento.setValor(dto.valorEntrada());
@@ -46,25 +46,33 @@ public class CompraMapper {
         return compra;
     }
 
+
     public CompraResponseDTO toDTO(Compra compra) {
         CarroResponseDTO carroDTO = new CarroResponseDTO(
                 compra.getCarro().getId(),
-                compra.getCarro().getNome(),
+                compra.getCarro().getMarca(),
                 compra.getCarro().getModelo(),
                 compra.getCarro().getCor(),
                 compra.getCarro().getAno(),
-                compra.getCarro().getPreco()
+                compra.getCarro().getPreco(),
+                compra.getCarro().getCarroStatus()
         );
+
+        BigDecimal valorFinanciado = null;
+        if (compra.getPagamento().getFinanciamento() != null) {
+            valorFinanciado = compra.getPagamento().getFinanciamento().getValorFinanciado();
+        }
 
         PagamentoDTO pagamentoDTO = new PagamentoDTO(
                 compra.getPagamento().getId(),
                 compra.getPagamento().getTipoPagamento(),
                 compra.getPagamento().getValor(),
-                compra.getPagamento().getFinanciamento().getValorFinanciado()
+                valorFinanciado
         );
+
         return new CompraResponseDTO(
                 compra.getId(),
-                compra.getNomeCliente(),
+                compra.getIdUsuario(),
                 carroDTO,
                 compra.getStatus(),
                 pagamentoDTO,
