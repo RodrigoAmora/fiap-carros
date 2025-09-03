@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "c7f3b947-9b51-4840-ae18-2ad7233590b7",
+		"name": "fiap-carros",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8543961"
+	},
+	"item": [
+		{
+			"name": "Busca de carronpor id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6ekBlbWFpbC5jb20iLCJpYXQiOjE3NTU3OTY1MDcsImV4cCI6MTc1NTg4MjkwN30.ng_UEBtKMQP6gRS3x7gn65l6NEBhp_Qx98Gjxe6ccwM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/api/carro/1",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"carro",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Salvar carro",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6ekBlbWFpbC5jb20iLCJpYXQiOjE3NTU3OTY1MDcsImV4cCI6MTc1NTg4MjkwN30.ng_UEBtKMQP6gRS3x7gn65l6NEBhp_Qx98Gjxe6ccwM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"marca\": \"Fiat\",\n  \"modelo\": \"Mobi\",\n  \"cor\": \"Preto\",\n  \"ano\": \"2025\",\n  \"preco\": 50000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-url}}/api/carro",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"carro"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar carro",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6ekBlbWFpbC5jb20iLCJpYXQiOjE3NTU3OTY1MDcsImV4cCI6MTc1NTg4MjkwN30.ng_UEBtKMQP6gRS3x7gn65l6NEBhp_Qx98Gjxe6ccwM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"marca\": \"Fiat\",\n  \"modelo\": \"Mobi\",\n  \"cor\": \"Preto\",\n  \"ano\": \"2025\",\n  \"preco\": 50000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-url}}/api/carro/1",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"carro",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar carros vendidos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6ekBlbWFpbC5jb20iLCJpYXQiOjE3NTU3OTY1MDcsImV4cCI6MTc1NTg4MjkwN30.ng_UEBtKMQP6gRS3x7gn65l6NEBhp_Qx98Gjxe6ccwM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/api/carro/vendidos",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"carro",
+						"vendidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar carros a venda",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6ekBlbWFpbC5jb20iLCJpYXQiOjE3NTU3OTY1MDcsImV4cCI6MTc1NTg4MjkwN30.ng_UEBtKMQP6gRS3x7gn65l6NEBhp_Qx98Gjxe6ccwM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/api/carro/avenda",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"carro",
+						"avenda"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Realizar compra",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6ekBlbWFpbC5jb20iLCJpYXQiOjE3NTU3OTY1MDcsImV4cCI6MTc1NTg4MjkwN30.ng_UEBtKMQP6gRS3x7gn65l6NEBhp_Qx98Gjxe6ccwM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_usuário\": \"95220135-ed5e-49f5-aea3-668d25d68d42\",\n  \"id_carro\": 1,\n  \"tipo_pagamento\": \"A_VISTA\",\n  \"valor_entrada\": 10000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-url}}/api/compra",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"compra"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"joao@email.com\",\n  \"senha\": \"senha123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-url}}/api/fiap/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"fiap",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pegar dados do usuário logado",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ6ekBlbWFpbC5jb20iLCJpYXQiOjE3NTU3OTY1MDcsImV4cCI6MTc1NTg4MjkwN30.ng_UEBtKMQP6gRS3x7gn65l6NEBhp_Qx98Gjxe6ccwM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/api/fiap/auth/me",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"fiap",
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		}
+	]
+}
