@@ -63,6 +63,7 @@ public class CompraService {
             BigDecimal valorFinanciado = carroResponseDTO.preco().subtract(request.valorEntrada());
 
             Financiamento financiamento = new Financiamento();
+            financiamento.setFinanciamentoStatus(FinanciamentoStatus.EM_ANALISE);
             financiamento.setValorEntreda(request.valorEntrada());
             financiamento.setValorFinanciado(valorFinanciado);
 
