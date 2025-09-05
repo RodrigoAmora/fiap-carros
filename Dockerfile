@@ -1,32 +1,9 @@
-# Define a imagem base
-FROM openjdk:17-oracle
+FROM openjdk:17-jdk-slim
 
-LABEL maintainer="rodrigo.amora.freitas@gmail.com"
-LABEL version="1.0.7"
-LABEL name="Rodrigo Amora"
-
-# Copia o arquivo JAR do seu projeto para dentro do container
-COPY ./target/FiapCarros-1.0.jar  /app/app.jar
-
-# Define o diretório de trabalho primeiro
 WORKDIR /app
 
-# Copia os arquivos necessários para build
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src src
+COPY target/*.jar app.jar
 
-# Configura permissões e executa build
-RUN ./mvnw dependency:go-offline -B
-RUN ./mvnw package -Pprod -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-
-
-
-# Define o comando de inicialização do seu projeto
-CMD java -jar app.jar
-
-# Expõe a porta do seu projeto
 EXPOSE 8081
 
+ENTRYPOINT ["java","-jar","app.jar"]
