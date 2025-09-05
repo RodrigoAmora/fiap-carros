@@ -23,7 +23,7 @@ COPY src src
 
 # Configura permissões e executa build
 RUN ./mvnw dependency:go-offline -B
-RUN ./mvnw package -DskipTests
+RUN ./mvnw package -Pprod -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 

@@ -66,16 +66,16 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             # Criar diretório se não existir
-            mkdir -p ~/fiapcarros
+            mkdir -p ~/app
             
             # Copiar docker-compose
-            cp ~/fiapcarros/docker-compose.yml ~/fiapcarros/docker-compose.yml.backup || true
+            cp ~/app/docker-compose.yml ~/app/docker-compose.yml.backup || true
             
             # Download do docker-compose mais recente
-            curl -o ~/fiapcarros/docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
+            curl -o ~/app/docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
             
             # Parar containers existentes
-            cd ~/fiapcarros
+            cd ~/app
             docker-compose down || true
             
             # Remover imagens antigas
