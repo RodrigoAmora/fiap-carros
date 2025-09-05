@@ -1,7 +1,11 @@
 services:
   mysql-service:
     image: mysql/mysql-server:8.0.32-1.2.11-server
-    command: --default-authentication-plugin=mysql_native_password
+    command:
+      - --default-authentication-plugin=mysql_native_password
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_unicode_ci
+        - --skip-ssl
     container_name: 'mysql-service'
     volumes:
       - mysql-data:/var/lib/mysql
