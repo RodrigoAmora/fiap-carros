@@ -3,7 +3,7 @@
 sudo yum update -y
 
 sudo yum install iptables
-sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8081
 
 
 sudo yum install -y docker 
