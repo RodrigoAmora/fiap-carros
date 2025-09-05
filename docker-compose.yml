@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   mysql-service:
     image: mysql/mysql-server:8.0.32-1.2.11-server
@@ -18,8 +17,7 @@ services:
       - MYSQL_ROOT_HOST=127.0.0.1
     ports:
       - "3306:3306"
-    expose:
-      - '3306'
+
   fiap-carros:
     image: rodrigoamora/rodrigo-springboot:latest
     container_name: 'fiap-carros'
@@ -32,6 +30,7 @@ services:
       SPRING_PROFILES_ACTIVE: prod
     networks:
       - fiap-network
+    restart: always
     depends_on:
       - mysql-service
 
