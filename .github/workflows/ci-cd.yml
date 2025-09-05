@@ -68,44 +68,46 @@ jobs:
           command_timeout: "20m"
           script_stop: true
           script: |
-            # Criar diretório se não existir
+            # Garantir que o Docker e Docker Compose estão instalados
+            if ! command -v docker &> /dev/null; then
+            sudo yum update -y
+            sudo yum install -y docker
+            sudo service docker start
+            sudo usermod -a -G docker $USER
+            fi
+            
+            if ! command -v docker-compose &> /dev/null; then
+            sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+            fi
+            
+            # Criar diretório e baixar docker-compose
             mkdir -p ~/app
-            
-            # Copiar docker-compose
-            cp ~/app/docker-compose.yml ~/app/docker-compose.yml.backup || true
-            
-            # Download do docker-compose mais recente
-            curl -o ~/app/docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
-            
-            # Parar containers existentes
             cd ~/app
-            docker-compose down || true
             
-            # Remover imagens antigas
+            # Backup e download do novo docker-compose
+            cp docker-compose.yml docker-compose.yml.backup 2>/dev/null || true
+            curl -o docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
+            
+            # Parar e limpar containers
+            docker-compose down || true
             docker system prune -f
             
-            # Pull da nova imagem
+            # Pull e start dos containers
             docker-compose pull
-            
-            # Subir aplicação e aguardar
             docker-compose up -d
             
-            # Aguardar serviços iniciarem
-            echo "Aguardando serviços iniciarem..."
+            # Aguardar serviços (com timeout de 5 minutos)
+            echo "Aguardando MySQL..."
+            timeout 300 bash -c 'until docker exec mysql-service mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD --silent; do sleep 5; done'
             
-            # Aguarda MySQL (máximo 5 minutos)
-            timeout 300 bash -c 'until docker exec mysql-service mysqladmin ping -h localhost -u root -proot --silent; do echo "Aguardando MySQL..."; sleep 5; done'
+            echo "Aguardando aplicação..."
+            timeout 300 bash -c 'until curl -sf http://localhost:8081/actuator/health; do sleep 5; done'
             
-            # Aguarda aplicação Spring Boot (máximo 5 minutos)
-            timeout 300 bash -c 'until curl -f http://localhost:8081/actuator/health; do echo "Aguardando aplicação..."; sleep 5; done'
-            
-            # Verificar status final
+            # Verificação final
             docker-compose ps
-            
-            # Mostrar logs em caso de erro
             if [ $(docker-compose ps --status running | wc -l) -lt 3 ]; then
-            echo "Erro: Verificando logs..."
+            echo "ERRO: Containers não estão rodando corretamente"
             docker-compose logs
             exit 1
             fi
-
