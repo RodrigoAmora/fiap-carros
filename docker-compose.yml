@@ -22,9 +22,7 @@ services:
       - '3306'
   
   fiap-carros:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: rodrigoamora/rodrigo-springboot:latest
     container_name: 'fiap-carros'
     ports:
       - "8081:8081"
