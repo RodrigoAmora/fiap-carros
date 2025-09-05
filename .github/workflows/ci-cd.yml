@@ -89,3 +89,23 @@ jobs:
             
             # Subir aplicação e aguardar
             docker-compose up -d
+            
+            # Aguardar serviços iniciarem
+            echo "Aguardando serviços iniciarem..."
+            
+            # Aguarda MySQL (máximo 5 minutos)
+            timeout 300 bash -c 'until docker exec mysql-service mysqladmin ping -h localhost -u root -proot --silent; do echo "Aguardando MySQL..."; sleep 5; done'
+            
+            # Aguarda aplicação Spring Boot (máximo 5 minutos)
+            timeout 300 bash -c 'until curl -f http://localhost:8081/actuator/health; do echo "Aguardando aplicação..."; sleep 5; done'
+            
+            # Verificar status final
+            docker-compose ps
+            
+            # Mostrar logs em caso de erro
+            if [ $(docker-compose ps --status running | wc -l) -lt 3 ]; then
+            echo "Erro: Verificando logs..."
+            docker-compose logs
+            exit 1
+            fi
+
