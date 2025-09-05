@@ -42,8 +42,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/fiapcarros:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/fiapcarros:${{ github.sha }}
+            rodrigoamora/rodrigo-springboot:latest
+            rodrigoamora/rodrigo-springboot:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
