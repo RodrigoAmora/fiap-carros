@@ -86,8 +86,22 @@ jobs:
             # Pull da nova imagem
             docker-compose pull
             
-            # Subir aplicação na porta 8081
+            # Subir aplicação e aguardar
             docker-compose up -d
             
-            # Verificar logs
-            docker-compose logs --tail=100
+            # Aguardar MySQL estar pronto
+            echo "Aguardando MySQL inicializar..."
+            sleep 30
+            
+            # Verificar status dos containers
+            docker-compose ps
+            
+            # Verificar logs específicos
+            docker-compose logs mysql-service --tail=50
+            docker-compose logs fiap-carros --tail=50
+            
+            # Verificar se ambos os containers estão rodando
+            if [ $(docker-compose ps --status running | wc -l) -lt 3 ]; then
+            echo "Erro: Nem todos os containers estão rodando"
+            exit 1
+            fi
