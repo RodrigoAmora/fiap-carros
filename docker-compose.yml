@@ -36,7 +36,8 @@ services:
       - fiap-carros-network
     restart: always
     depends_on:
-      - mysql-service
+      mysql-service:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
       interval: 30s
