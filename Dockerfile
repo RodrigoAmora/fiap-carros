@@ -5,12 +5,8 @@ LABEL maintainer="rodrigo.amora.freitas@gmail.com"
 LABEL version="1.0.7"
 LABEL name="Rodrigo Amora"
 
-# Define as variáveis AAP_NAME e VERSION
-ENV APP_NAME=FiapCarros
-ENV VERSION=1.0
-
 # Copia o arquivo JAR do seu projeto para dentro do container
-COPY ./target/${APP_NAME}-${VERSION}.jar  /app/${APP_NAME}.jar
+COPY ./target/FiapCarros-1.0.jar  /app/app.jar
 
 # Define o diretório de trabalho primeiro
 WORKDIR /app
@@ -29,7 +25,7 @@ RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 
 # Define o comando de inicialização do seu projeto
-CMD java -jar ${APP_NAME}.jar
+CMD java -jar app.jar
 
 # Expõe a porta do seu projeto
 EXPOSE 8081
