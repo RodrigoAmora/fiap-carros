@@ -39,3 +39,6 @@ services:
 networks:
   spring-boot-mysql-network:
     driver: bridge
+
+volumes:
+  mysql-data:
