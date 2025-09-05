@@ -36,6 +36,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: rodrigo@1988
       SPRING_PROFILES_ACTIVE: prod
+      JAVA_TOOL_OPTIONS: -Xmx512m -Xms256m
     networks:
       - fiap-carros-network
     restart: always
