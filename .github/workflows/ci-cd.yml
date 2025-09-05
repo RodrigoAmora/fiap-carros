@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v3
@@ -53,6 +53,7 @@ jobs:
   deploy:
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
+    timeout-minutes: 45
     runs-on: ubuntu-latest
 
     steps:
@@ -66,6 +67,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           debug: true  # Ativa logs detalhados
           command_timeout: "20m"
+          connect_timeout: "60s"
+          use_insecure_cipher: true
           script_stop: true
           script: |
             # Garantir que o processo não fique pendurado
