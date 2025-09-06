@@ -17,9 +17,12 @@ public class FeignClientConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
         return requestTemplate -> {
-            String token = tokenManager.getStoredToken();
-            if (token != null) {
-                requestTemplate.header("Authorization", "Bearer " + token);
+            // Não adiciona o token para a rota de login
+            if (!requestTemplate.url().contains("/api/auth/login")) {
+                String token = tokenManager.getStoredToken();
+                if (token != null) {
+                    requestTemplate.header("Authorization", "Bearer " + token);
+                }
             }
         };
     }
