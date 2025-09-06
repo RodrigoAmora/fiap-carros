@@ -86,8 +86,7 @@ jobs:
             docker-compose pull
 
             # Subir aplicação
-            #docker-compose up -d
-            docker run -d --name fiap-carros -p 8081:8081 rodrigoamora/rodrigo-springboot:latest
+            docker-compose up -d
 
             # Verificar logs
             docker-compose logs --tail=100
