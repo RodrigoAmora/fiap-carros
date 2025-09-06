@@ -18,9 +18,7 @@ services:
       timeout: 5s
       retries: 5
     environment:
-      - MYSQL_USER=root
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PASSWORD=rodrigo@1988
+      - MYSQL_ROOT_PASSWORD=rodrigo@1988
       - MYSQL_DATABASE=fiap_carros
       - MYSQL_ROOT_HOST=%
     ports:
