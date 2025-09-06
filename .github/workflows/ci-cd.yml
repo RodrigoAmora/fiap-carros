@@ -90,3 +90,4 @@ jobs:
 
             # Verificar logs
             docker-compose logs --tail=100
+            
