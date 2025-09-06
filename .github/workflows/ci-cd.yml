@@ -46,9 +46,6 @@ jobs:
             rodrigoamora/rodrigo-springboot:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            APP_NAME=FiapCarros
-            VERSION=1.0
 
   deploy:
     needs: build-and-test
@@ -69,51 +66,27 @@ jobs:
           command_timeout: "20m"
           connect_timeout: "60s"
           script: |
-            # Limpar ambiente
+            # Criar diretório se não existir
             mkdir -p ~/app
+
+            # Copiar docker-compose
+            cp ~/app/docker-compose.yml ~/app/docker-compose.yml.backup || true
+
+            # Download do docker-compose mais recente
+            curl -o ~/app/docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
+
+            # Parar containers existentes
             cd ~/app
-            sudo docker-compose down
-            sudo docker system prune -af --volumes
-            
-            # Remover arquivo antigo e baixar novo
-            rm -f docker-compose.yml
-            wget -O docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
-            
-            # Dar permissões e iniciar
-            sudo chown -R $USER:$USER .
-            
-            # Iniciar containers com logs
-            echo "Iniciando containers..."
-            sudo docker-compose up -d
-            
-            # Aguardar MySQL (com retry e logs)
-            echo "Aguardando MySQL iniciar..."
-            for i in {1..30}; do
-            echo "Tentativa $i de 30 para MySQL..."
-            if sudo docker exec mysql-service mysqladmin ping -h localhost -u root -prodrigo@1988 >/dev/null 2>&1; then
-            echo "MySQL está pronto!"
-            break
-            fi
-            if [ $i -eq 30 ]; then
-            echo "MySQL falhou ao iniciar. Logs do container:"
-            sudo docker logs mysql-service
-            exit 1
-            fi
-            sleep 10
-            done
-            
-            # Verificar se o banco foi criado
-            echo "Verificando banco de dados..."
-            if ! sudo docker exec mysql-service mysql -u root -prodrigo@1988 -e "USE fiap_carros;"; then
-            echo "Banco de dados não foi criado. Logs do MySQL:"
-            sudo docker logs mysql-service
-            exit 1
-            fi
-            
-            # Mostrar status final
-            echo "Status dos containers:"
-            sudo docker-compose ps
-            echo "Logs do MySQL:"
-            sudo docker logs mysql-service
-            echo "Logs da aplicação:"
-            sudo docker logs fiap-carros
+            docker-compose down || true
+
+            # Remover imagens antigas
+            docker system prune -f
+
+            # Pull da nova imagem
+            docker-compose pull
+
+            # Subir aplicação
+            docker-compose up -d
+
+            # Verificar logs
+            docker-compose logs --tail=100
