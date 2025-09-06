@@ -67,9 +67,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           debug: true  # Ativa logs detalhados
           command_timeout: "20m"
-          connect_timeout: "60s"
+          connect_timeout: "120s"
+          retries: 3
           use_insecure_cipher: true
           script_stop: true
+          proxy_key_retries: 3
+          proxy_use_insecure_cipher: true
           script: |
             # Limpar ambiente
             cd ~/app
