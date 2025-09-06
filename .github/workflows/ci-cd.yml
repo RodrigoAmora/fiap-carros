@@ -110,22 +110,6 @@ jobs:
             exit 1
             fi
             
-            # Aguardar aplicação Spring
-            echo "Aguardando aplicação Spring iniciar..."
-            for i in {1..20}; do
-            echo "Tentativa $i de 20 para Spring Boot..."
-            if curl -s http://localhost:8081/actuator/health | grep -q "UP"; then
-            echo "Aplicação Spring está pronta!"
-            break
-            fi
-            if [ $i -eq 20 ]; then
-            echo "Spring Boot falhou ao iniciar. Logs do container:"
-            sudo docker logs fiap-carros
-            exit 1
-            fi
-            sleep 15
-            done
-            
             # Mostrar status final
             echo "Status dos containers:"
             sudo docker-compose ps
