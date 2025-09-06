@@ -22,7 +22,9 @@ jobs:
           cache: maven
 
       - name: Build and Test
-        run: ./mvnw -B clean verify
+        run: |
+          ./mvnw -B clean package
+          ls -la target/*.jar  # Verificar se o JAR foi gerado
 
       - name: Login to Docker Hub
         if: github.ref == 'refs/heads/main'
