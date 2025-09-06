@@ -17,6 +17,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 60s
     environment:
       - MYSQL_ROOT_PASSWORD=rodrigo@1988
       - MYSQL_DATABASE=fiap_carros
@@ -30,11 +31,12 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/fiap_carros?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rodrigo@1988
-      SPRING_PROFILES_ACTIVE: prod
-      JAVA_TOOL_OPTIONS: -Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/fiap_carros?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rodrigo@1988
+      - SPRING_PROFILES_ACTIVE=prod
+      - JAVA_TOOL_OPTIONS=-Xmx512m -Xms256m
     networks:
       - fiap-carros-network
     restart: always
