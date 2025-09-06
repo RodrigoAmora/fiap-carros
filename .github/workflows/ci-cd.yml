@@ -71,49 +71,66 @@ jobs:
           use_insecure_cipher: true
           script_stop: true
           script: |
-            # Garantir que o processo não fique pendurado
-            set -e
-            
-            # Verificar se o Docker está rodando
-            if ! sudo systemctl is-active --quiet docker; then
-              sudo systemctl start docker
-            fi
-            
-            # Garantir permissões do Docker
-            sudo usermod -aG docker $USER
-            
-            if ! command -v docker-compose &> /dev/null; then
-            sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
-            fi
-            
-            # Criar diretório e baixar docker-compose
-            mkdir -p ~/app
+            # Limpar ambiente
             cd ~/app
+            sudo docker-compose down
+            sudo docker system prune -af --volumes
             
-            # Backup e download do novo docker-compose
-            cp docker-compose.yml docker-compose.yml.backup 2>/dev/null || true
-            curl -o docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
+            # Remover arquivo antigo e baixar novo
+            rm -f docker-compose.yml
+            wget -O docker-compose.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker-compose.yml
             
-            # Parar e limpar containers
-            docker-compose down || true
-            docker system prune -f
+            # Dar permissões e iniciar
+            sudo chown -R $USER:$USER .
             
-            # Pull e start dos containers
-            docker-compose pull
-            docker-compose up -d
+            # Iniciar containers com logs
+            echo "Iniciando containers..."
+            sudo docker-compose up -d
             
-            # Aguardar serviços (com timeout de 5 minutos)
-            echo "Aguardando MySQL..."
-            timeout 300 bash -c 'until docker exec mysql-service mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD --silent; do sleep 5; done'
-            
-            echo "Aguardando aplicação..."
-            timeout 300 bash -c 'until curl -sf http://localhost:8081/actuator/health; do sleep 5; done'
-            
-            # Verificação final
-            docker-compose ps
-            if [ $(docker-compose ps --status running | wc -l) -lt 3 ]; then
-            echo "ERRO: Containers não estão rodando corretamente"
-            docker-compose logs
+            # Aguardar MySQL (com retry e logs)
+            echo "Aguardando MySQL iniciar..."
+            for i in {1..30}; do
+            echo "Tentativa $i de 30 para MySQL..."
+            if sudo docker exec mysql-service mysqladmin ping -h localhost -u root -prodrigo@1988 >/dev/null 2>&1; then
+            echo "MySQL está pronto!"
+            break
+            fi
+            if [ $i -eq 30 ]; then
+            echo "MySQL falhou ao iniciar. Logs do container:"
+            sudo docker logs mysql-service
             exit 1
             fi
+            sleep 10
+            done
+            
+            # Verificar se o banco foi criado
+            echo "Verificando banco de dados..."
+            if ! sudo docker exec mysql-service mysql -u root -prodrigo@1988 -e "USE fiap_carros;"; then
+            echo "Banco de dados não foi criado. Logs do MySQL:"
+            sudo docker logs mysql-service
+            exit 1
+            fi
+            
+            # Aguardar aplicação Spring
+            echo "Aguardando aplicação Spring iniciar..."
+            for i in {1..20}; do
+            echo "Tentativa $i de 20 para Spring Boot..."
+            if curl -s http://localhost:8081/actuator/health | grep -q "UP"; then
+            echo "Aplicação Spring está pronta!"
+            break
+            fi
+            if [ $i -eq 20 ]; then
+            echo "Spring Boot falhou ao iniciar. Logs do container:"
+            sudo docker logs fiap-carros
+            exit 1
+            fi
+            sleep 15
+            done
+            
+            # Mostrar status final
+            echo "Status dos containers:"
+            sudo docker-compose ps
+            echo "Logs do MySQL:"
+            sudo docker logs mysql-service
+            echo "Logs da aplicação:"
+            sudo docker logs fiap-carros
