@@ -52,12 +52,8 @@ services:
       start_period: 40s
 
 networks:
-  fiap-network:
+  fiap-network2:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.20.0.0/16
 
 volumes:
   mysql-data:
