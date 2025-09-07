@@ -52,7 +52,7 @@ services:
       start_period: 40s
 
 networks:
-  fiap-network2:
+  fiap-network:
     driver: bridge
 
 volumes:
