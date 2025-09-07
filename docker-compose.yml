@@ -6,7 +6,7 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
-      - fiap-network
+      - fiap-network2
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=rodrigo@1988
@@ -42,7 +42,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=rodrigo@1988
       - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom
     networks:
-      - fiap-network
+      - fiap-network2
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
@@ -52,7 +52,7 @@ services:
       start_period: 40s
 
 networks:
-  fiap-network:
+  fiap-network2:
     driver: bridge
 
 volumes:
