@@ -1,7 +1,7 @@
 # fiap-carros
 Descrição
 ---------
-Micro-Serviço de veículos da prova substituiva da pós de Arquitetura de Software da FIAP.
+Micro-Serviço de veículos da prova substitutiva da pós de Arquitetura de Software da FIAP.
 
 Participantes
 -------------
