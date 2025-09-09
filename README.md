@@ -27,12 +27,12 @@ A documentação da API pode ser vista através do Swagger e do Redoc.<br>
 
 <b>Documentação da API via Swagger:</b>
 ```shell script
-http://localhost:8080/swagger
+http://localhost:8081/swagger
 ```
 
 <b>Documentação da API via Redoc:</b>
 ```shell script
-http://localhost:8080/redoc
+http://localhost:8081/redoc
 ```
 
 ##
@@ -42,12 +42,12 @@ Monitoração do projeto
 ----------------------
 A monitoração do projeto para verificar a saúde da aplicação e os recursos utilizados:
 ```shell script
-http://localhost:8080/health
+http://localhost:8081/health
 ```
 
 Banco de dados
 --------------
-O projeto usa o MySQL como banco da dados.
+O projeto usa o MySQL como banco da dados para o ambiente local e de produção e o H2 para os testes.
 
 Gerando o arquivo .jar
 ----------------------
