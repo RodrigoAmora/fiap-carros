@@ -1,0 +1,61 @@
+services:
+  mysql-service:
+    image: mysql/mysql-server:8.0.32-1.2.11-server
+    container_name: mysql-service
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - fiap-network2
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=rodrigo@1988
+      - MYSQL_DATABASE=fiap_carros
+      - MYSQL_ROOT_HOST=%
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prodrigo@1988"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  fiap-carros:
+    image: rodrigoamora/rodrigo-springboot:latest
+    container_name: fiap-carros
+    platform: linux/amd64 #Para MacBooks com o processador M+(M1, M2, M3,etc...)
+    depends_on:
+      mysql-service:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/fiap_carros?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rodrigo@1988
+      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom
+    networks:
+      - fiap-network2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  fiap-network2:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
