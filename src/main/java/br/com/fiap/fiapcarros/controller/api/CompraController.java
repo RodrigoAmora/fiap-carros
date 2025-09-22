@@ -2,12 +2,14 @@ package br.com.fiap.fiapcarros.controller.api;
 
 import br.com.fiap.fiapcarros.controller.api.doc.CompraControllerDoc;
 import br.com.fiap.fiapcarros.dto.request.CompraRequestDTO;
-import br.com.fiap.fiapcarros.dto.response.CarroResponseDTO;
 import br.com.fiap.fiapcarros.dto.response.CompraResponseDTO;
 import br.com.fiap.fiapcarros.service.CompraService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/compra")
@@ -26,18 +28,4 @@ public class CompraController implements CompraControllerDoc {
         return ResponseEntity.ok(compraService.realizarCompra(request));
     }
 
-//    @PutMapping("{id}/cancelar")
-//    public ResponseEntity<CarroResponseDTO> cancelarCompar(@PathVariable(name = "id") Long id) {
-//
-//    }
-//
-//    @PutMapping("{id}/aprovarfinanciamento")
-//    public ResponseEntity<CarroResponseDTO> cancelarCompar(@PathVariable(name = "id") Long id) {
-//
-//    }
-//
-//    @PutMapping("{id}/reprovarfinanciamento")
-//    public ResponseEntity<CarroResponseDTO> cancelarCompar(@PathVariable(name = "id") Long id) {
-//
-//    }
 }
